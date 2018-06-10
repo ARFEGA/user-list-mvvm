@@ -13,6 +13,7 @@ import io.reactivex.schedulers.Schedulers
 class UserListViewModel : BaseViewModel(){
 
     val userListState: MutableLiveData<List<UserEntity>> = MutableLiveData()
+    val isLoadingState: MutableLiveData<Boolean> = MutableLiveData()
 //todo:mejorar dependencias (no por inyección con service locator)
     private val fakeDataSource= UserFakeDataSource()
     private val userRepository = UserRepository(fakeDataSource)

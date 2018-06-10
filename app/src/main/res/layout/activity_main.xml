@@ -8,7 +8,7 @@
     tools:context=".presentation.userList.UserListActivity">
 
    <android.support.v7.widget.RecyclerView
-       android:id="@+id/list_recycler"
+       android:id="@+id/user_list_recycler"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:layout_margin="8dp"
