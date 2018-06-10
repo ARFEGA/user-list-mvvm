@@ -23,6 +23,8 @@ class UserListViewModel : BaseViewModel(){
         userRepository.getUserList()
                 .subscribeOn(Schedulers.io()) //Nos subscribimos por el hilo io
                 .observeOn(AndroidSchedulers.mainThread())//Escuchamos en el hilo principal
+                .doOnSubscribe { isLoadingState.postValue(true) }
+                .doOnTerminate { isLoadingState.postValue(false) }
                 .subscribeBy(
                         onNext = {
                             userListState.value = it

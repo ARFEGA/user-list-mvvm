@@ -2,6 +2,7 @@ package com.example.armando.userlist.data.repository.datasource
 
 import com.example.armando.userlist.data.model.UserEntity
 import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
 class UserFakeDataSource : UserDataSource{
 
@@ -17,6 +18,7 @@ class UserFakeDataSource : UserDataSource{
 
     override fun getUserList(): Observable<List<UserEntity>> {
         return Observable.just(user)
+                .delay(1,TimeUnit.SECONDS)
     }
 
     override fun getUserDetail(userId: Long): Observable<UserEntity> {
