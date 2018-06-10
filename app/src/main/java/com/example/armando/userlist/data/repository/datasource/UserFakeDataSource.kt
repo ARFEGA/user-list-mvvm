@@ -1,6 +1,6 @@
-package com.example.armando.userlist.repository.datasource
+package com.example.armando.userlist.data.repository.datasource
 
-import com.example.armando.userlist.model.UserEntity
+import com.example.armando.userlist.data.model.UserEntity
 import io.reactivex.Observable
 
 class UserFakeDataSource : UserDataSource{

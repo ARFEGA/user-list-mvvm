@@ -1,4 +1,4 @@
-package com.example.armando.userlist.model
+package com.example.armando.userlist.data.model
 
 data class UserEntity(
         val userId: Long,

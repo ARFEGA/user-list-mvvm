@@ -1,19 +1,19 @@
 package com.example.armando.userlist.presentation.userList
 
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import com.example.armando.userlist.model.UserEntity
-import com.example.armando.userlist.repository.datasource.UserFakeDataSource
-import com.example.armando.userlist.repository.datasource.UserRepository
-import io.reactivex.Scheduler
+import com.example.armando.userlist.data.model.UserEntity
+import com.example.armando.userlist.data.repository.datasource.UserFakeDataSource
+import com.example.armando.userlist.data.repository.datasource.UserRepository
+import com.example.armando.userlist.util.mvvm.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
-class UserListViewModel : ViewModel() {
+class UserListViewModel : BaseViewModel(){
 
     val userListState: MutableLiveData<List<UserEntity>> = MutableLiveData()
-
+//todo:mejorar dependencias (no por inyección con service locator)
     private val fakeDataSource= UserFakeDataSource()
     private val userRepository = UserRepository(fakeDataSource)
 
@@ -32,7 +32,7 @@ class UserListViewModel : ViewModel() {
                         onComplete = {
 
                         }
-                )
+                ).addTo(compositeDisposable)//Para que libere memoria y evitar memory leaks
 
     }
 }
