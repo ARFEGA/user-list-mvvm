@@ -5,6 +5,7 @@ import com.example.armando.userlist.data.model.UserEntity
 import com.example.armando.userlist.data.repository.datasource.UserFakeDataSource
 import com.example.armando.userlist.data.repository.datasource.UserRepository
 import com.example.armando.userlist.presentation.servicelocator.Inject
+import com.example.armando.userlist.util.SettingsManager
 import com.example.armando.userlist.util.mvvm.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -12,7 +13,6 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
 class UserListViewModel : BaseViewModel(){
-
     val userListState: MutableLiveData<List<UserEntity>> = MutableLiveData()
     val isLoadingState: MutableLiveData<Boolean> = MutableLiveData()
 //todo:mejorar dependencias (no por inyección con service locator)
@@ -35,7 +35,8 @@ class UserListViewModel : BaseViewModel(){
 
                         },
                         onComplete = {
-
+                           Inject.settingsManager.firstLoad = false
+                            //apply es en segundo plano y commit es en el hilo principal
                         }
                 ).addTo(compositeDisposable)//Para que libere memoria y evitar memory leaks
 
