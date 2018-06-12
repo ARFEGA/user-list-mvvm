@@ -1,7 +1,10 @@
 package com.example.armando.userlist.data.repository.datasource
 
 import com.example.armando.userlist.data.model.UserEntity
+import io.reactivex.Flowable.combineLatest
+import io.reactivex.Flowable.zip
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.zipWith
 import java.util.concurrent.TimeUnit
 
 class UserRepository(private val userFakeDataSource: UserFakeDataSource,
@@ -9,8 +12,18 @@ class UserRepository(private val userFakeDataSource: UserFakeDataSource,
 
     fun getUserList(): Observable<List<UserEntity>> {
         return userFakeDataSource.getUserList()
+                .zipWith(userFakeDataSource2.getUserList())
+                .map {pair->
+                    val newList = mutableListOf<UserEntity>()
+                    newList.addAll(pair.first)
+                    newList.addAll(pair.second)
+                    newList.toList()
+                }
+
                 .delay(3,TimeUnit.SECONDS)
-                .concatWith(userFakeDataSource2.getUserList())
+
+
+
     }
 
     fun getUserDetail(userId: Long): Observable<UserEntity> {

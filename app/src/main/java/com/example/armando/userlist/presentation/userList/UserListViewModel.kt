@@ -28,7 +28,8 @@ class UserListViewModel : BaseViewModel(){
                 .doOnTerminate { isLoadingState.postValue(false) }
                 .subscribeBy(
                         onNext = {
-                            userListState.value = it
+                            userListState.value =  it
+
                         },
                         onError = {
 
