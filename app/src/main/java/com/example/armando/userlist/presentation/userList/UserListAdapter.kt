@@ -12,18 +12,33 @@ import com.example.armando.userlist.data.model.UserEntity
 import com.example.armando.userlist.data.model.UserEntityDiff
 import kotlinx.android.synthetic.main.item_user.view.*
 
-class UserListAdapter : ListAdapter<UserEntity,UserListAdapter.UserListVH>(UserEntityDiff())  {
+
+//Para hacer un Listener
+typealias OnUserClick = (userEntity : UserEntity)-> Unit
+
+class UserListAdapter(val onUserClick: OnUserClick) :
+        RecyclerView.Adapter<UserListAdapter.UserListVH>()  {
+
+    private val items : MutableList<UserEntity> = mutableListOf()
+    override fun getItemCount(): Int =items.size
+
+    fun submitList(items:List<UserEntity>){
+        this.items.addAll(items)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserListVH {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user,parent,false)
         return  UserListVH(view)
     }
 
     override fun onBindViewHolder(holder: UserListVH, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(items[position])
     }
 
 
     inner class UserListVH(view:View) : RecyclerView.ViewHolder(view){
+            //itemView es cada elemento de la lista
             fun bind(userEntity: UserEntity){
                 with(itemView){
                     user_name.text = userEntity.name
@@ -32,7 +47,12 @@ class UserListAdapter : ListAdapter<UserEntity,UserListAdapter.UserListVH>(UserE
                             .load(userEntity.avatarUrl)
                             .into(user_avatar)
                 }
+                itemView.setOnClickListener {
+                    onUserClick(userEntity)
+                }
             }
+
+
         }
 
 }

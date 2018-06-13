@@ -1,6 +1,7 @@
 package com.example.armando.userlist.presentation.userList
 
 import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import com.example.armando.userlist.data.model.UserEntity
 import com.example.armando.userlist.data.repository.datasource.UserFakeDataSource
 import com.example.armando.userlist.data.repository.datasource.UserRepository
@@ -32,7 +33,7 @@ class UserListViewModel : BaseViewModel(){
 
                         },
                         onError = {
-
+                            Log.d("USER_LIST_VIEW_MODEL",it.toString())
                         },
                         onComplete = {
                            Inject.settingsManager.firstLoad = false
