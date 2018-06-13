@@ -1,9 +1,6 @@
 package com.example.armando.userlist.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.example.armando.userlist.data.model.UserEntity
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -17,5 +14,17 @@ abstract class UserDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)//Si el valor está duplicado, toma la decisión de sustituirlo
     abstract fun insertAll(users : List<UserEntity>)
+
+    @Query("Delete from users")
+    abstract fun deleteAllUsers()
+
+
+    //Tareas donde se controla que tienen un fin correcto
+    //Con open hacemos publica la función, de otra forma da problemas
+    @Transaction
+    open fun removeAndInsertUsers(users: List<UserEntity>){
+        deleteAllUsers()
+        insertAll(users)
+    }
 
 }

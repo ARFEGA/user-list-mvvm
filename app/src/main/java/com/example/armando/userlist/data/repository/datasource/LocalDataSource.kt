@@ -19,7 +19,7 @@ class LocalDataSource(val userDatabase: UserDatabase): UserDataSource {
     //Las inserciones hay que hacerlas en segundo plano
     fun saveUsers(users: List<UserEntity>){
         Observable.fromCallable{//fromCallable se emplea para indicar donde se ejecutará
-            userDatabase.getUserDao().insertAll(users)
+            userDatabase.getUserDao().removeAndInsertUsers(users)
         }
                 .subscribeOn(Schedulers.io())//Hilo en segundo plano
                 .subscribe()//Para que arranque
